@@ -8,89 +8,118 @@
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;background:#f5eee9;color:#604e48;
+ margin:0;background:#f5eee9;color:#66534d;
  font-family:Georgia,serif;
 }
-header{text-align:center;padding:25px 12px 15px}
-header h1{font-size:38px;font-weight:normal;font-style:italic;color:#ad7886;margin:0}
+header{text-align:center;padding:24px 10px 15px}
+header h1{font-size:42px;font-weight:normal;font-style:italic;color:#b77f8e;margin:0}
 header p{font:10px Arial;letter-spacing:3px;color:#a58b81}
-main{max-width:1000px;margin:auto;padding:12px}
+main{max-width:1050px;margin:auto;padding:12px}
 .panel{
- background:#fffaf6;border:1px solid #e9d9d0;
- border-radius:15px;padding:17px;margin-bottom:15px;
+ background:#fffaf6;border:1px solid #eadbd3;
+ border-radius:18px;padding:18px;margin-bottom:15px;
+ box-shadow:0 4px 15px #a8897910;
 }
-h2{font-size:22px;font-weight:normal;font-style:italic;margin:0 0 13px}
+h2{font-size:23px;font-weight:normal;font-style:italic;margin:0 0 12px}
 h3{font:11px Arial;letter-spacing:2px;color:#a17d77}
-.customers{display:flex;gap:10px;flex-wrap:wrap}
-.customer{
- flex:1;min-width:95px;padding:13px 5px;
- border:1px solid #e5d2ca;border-radius:10px;
- background:#fff7f2;color:#765b54;cursor:pointer;
- font:13px Arial;
+button{cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+#startScreen{text-align:center;padding:35px 15px}
+#startScreen h2{font-size:32px}
+#startScreen p{font:13px Arial;line-height:1.8;color:#987b73}
+.startButton,.mainButton{
+ background:#bb8492;color:white;border:0;border-radius:24px;
+ padding:14px 30px;font:13px Arial;letter-spacing:1px;
 }
-.customer.active{background:#f0dce0;border:2px solid #b98594}
-.customer .portrait{
- width:37px;height:37px;border-radius:50%;
- display:block;margin:0 auto 8px;
- border:3px solid #fff;box-shadow:0 0 0 1px #d5bcb3;
-}
-.game{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.face-panel{background:#f8e9e5;text-align:center;overflow:hidden}
-#customerName{font-size:25px;font-style:italic;margin:3px}
-#customerInfo{font:11px Arial;color:#987b73;margin:5px}
-#face svg{width:100%;max-width:300px;height:auto;display:block;margin:auto}
-.progress{height:4px;background:#eadbd5;border-radius:9px;margin:12px 0}
-#progress{height:4px;background:#bd8998;width:0;border-radius:9px}
-.stepnum{font:10px Arial;letter-spacing:2px;color:#a67c78}
-.products{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.game{display:none;grid-template-columns:1fr 1fr;gap:15px}
+.facePanel{background:#f7e9e5;text-align:center;overflow:hidden}
+#customerName{font-size:25px;font-style:italic;margin-top:5px}
+#customerInfo{font:11px Arial;color:#987b73;margin:6px}
+#face svg{width:100%;max-width:330px;display:block;margin:auto}
+.stepProgress{display:flex;gap:4px;margin:12px 0}
+.stepProgress span{height:4px;flex:1;background:#e9d8d2;border-radius:8px}
+.stepProgress span.done{background:#bd8998}
+#stepNumber{font:10px Arial;letter-spacing:2px;color:#a67c78}
+#status{font:12px Arial;color:#987b73;min-height:18px}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .product{
- border:1px solid #e9d8d0;background:#fffaf7;
- border-radius:10px;padding:10px 5px;cursor:pointer;
- color:#725951;min-width:0;
+ background:#fff8f4;border:1px solid #eadbd3;border-radius:13px;
+ padding:12px 5px 10px;color:#705a52;min-width:0;
 }
-.product.selected{border:2px solid #bd8998;background:#f8e7e9}
-.product .bottle{
- width:34px;height:48px;margin:0 auto 9px;
- border:1px solid #cfaeaa;border-radius:6px 6px 9px 9px;
- background:linear-gradient(90deg,#f0d6d3,#fff7f0,#eac9c8);
- position:relative;
+.product.selected{border:2px solid #bc8492;background:#f8e8eb}
+.productName{font:11px Arial;display:block;margin-top:8px;line-height:1.4}
+.productBrand{font:9px Arial;color:#ad8b82;display:block;margin-top:4px}
+.visual{
+ height:75px;display:flex;align-items:center;justify-content:center;
 }
-.product .bottle:before{
- content:"";position:absolute;width:13px;height:9px;
- background:#cba3a1;top:-9px;left:9px;border-radius:3px 3px 0 0;
+.bottle{
+ width:35px;height:55px;position:relative;
+ border-radius:7px 7px 9px 9px;
+ border:1px solid #c9a9a0;
+ background:linear-gradient(90deg,#e9c8c7,#fff5ed,#e9c8c7);
+ box-shadow:2px 3px 5px #b69a8b33;
 }
-.product strong{font:11px Arial;display:block}
-.product small{font:10px Arial;color:#a68a81;display:block;margin-top:5px}
-.product:hover{background:#f8eeee}
-.shades{display:flex;flex-wrap:wrap;gap:12px;margin:13px 0}
+.bottle:before{content:"";position:absolute;top:-10px;left:10px;width:13px;height:10px;background:#d7b3aa;border-radius:3px 3px 0 0}
+.bottle:after{content:"B";position:absolute;top:22px;left:0;right:0;text-align:center;font:italic 13px Georgia;color:#a67a80}
+.bottle.green{background:linear-gradient(90deg,#bfd0b5,#f0f1df,#bfd0b5)}
+.bottle.pink{background:linear-gradient(90deg,#e8b9c3,#fff1ee,#e8b9c3)}
+.bottle.clear{background:linear-gradient(90deg,#d7e5e2,#fff,#d7e5e2)}
+.jar{
+ width:51px;height:37px;border-radius:6px 6px 10px 10px;
+ background:linear-gradient(90deg,#ebc7c9,#fff5f1,#eac3c5);
+ border:1px solid #cba9a2;position:relative;margin-top:13px;
+}
+.jar:before{content:"";position:absolute;top:-8px;left:-2px;width:53px;height:9px;border-radius:3px;background:#d4aaa9}
+.tube{
+ width:29px;height:61px;border-radius:7px 7px 4px 4px;
+ background:linear-gradient(90deg,#dcbfc0,#fff5ef,#dcbfc0);
+ border:1px solid #c9a9a0;position:relative;clip-path:polygon(0 0,100% 0,90% 88%,75% 100%,25% 100%,10% 88%);
+}
+.palette{
+ width:55px;height:42px;border-radius:7px;background:#e9d5ca;
+ border:1px solid #c9aaa0;display:grid;grid-template-columns:repeat(3,1fr);
+ padding:5px;gap:3px;transform:rotate(-5deg);
+}
+.palette i{border-radius:50%;background:#c98a8e}
+.palette i:nth-child(2){background:#d7ae89}
+.palette i:nth-child(3){background:#94766a}
+.palette i:nth-child(4){background:#c9a7b9}
+.palette i:nth-child(5){background:#ead2aa}
+.palette i:nth-child(6){background:#8b695c}
+.shades{display:flex;gap:11px;flex-wrap:wrap;margin:12px 0}
 .shade{
- width:30px;height:30px;border-radius:50%;
- border:2px solid white;box-shadow:0 0 0 1px #d9c5bc;
- cursor:pointer;
+ width:31px;height:31px;border-radius:50%;border:2px solid white;
+ box-shadow:0 0 0 1px #d9c5bc;
 }
 .shade.active{box-shadow:0 0 0 2px #a87582}
-.apply{
- background:#b87e8d;color:white;border:0;border-radius:20px;
- padding:12px 24px;cursor:pointer;font:12px Arial;
- margin-top:12px;width:100%;
+#shadeLabel{font:11px Arial;color:#987b73}
+.actionBox{background:#f8eeeb;border-radius:13px;padding:15px;margin-top:15px}
+.actionBox p{font:12px Arial;line-height:1.6;color:#987b73}
+.actionButton{
+ border:1px solid #d9b9b9;background:#fffaf6;color:#946e76;
+ padding:10px 17px;border-radius:20px;font:12px Arial;
 }
-.apply:disabled{opacity:.45;cursor:default}
-.secondary{
- background:transparent;border:1px solid #d9b9b9;
- border-radius:18px;padding:9px 16px;color:#986c76;
- cursor:pointer;font:12px Arial;
-}
-.nav{display:flex;justify-content:space-between;gap:8px;margin-top:15px}
+.actionButton:disabled{opacity:.4}
+#actionProgress{height:5px;background:#eadbd5;border-radius:8px;margin-top:12px}
+#actionFill{height:5px;background:#bd8998;width:0;border-radius:8px}
+#blendHint{font:11px Arial;color:#9b7c77;min-height:16px;margin-top:8px}
+.shadeTitle{margin-bottom:5px}
+#nextArea{display:none;text-align:center;margin-top:15px}
+#finishScreen{display:none;text-align:center}
+#finishScreen h2{font-size:30px}
+#finalFace svg{width:100%;max-width:300px}
+#finishScreen p{font:13px Arial;color:#987b73}
+.nav{display:flex;gap:9px;margin-top:15px}
 .nav button{flex:1}
-#message{font:12px Arial;color:#a07879;min-height:18px;margin-top:10px}
-#finish{display:none;text-align:center}
-#finish h2{font-size:29px}
-#finish button{margin:5px}
-footer{text-align:center;font:9px Arial;letter-spacing:2px;color:#a98b81;padding:18px}
+.secondary{
+ background:transparent;border:1px solid #d9b9b9;color:#986c76;
+ border-radius:20px;padding:10px;font:12px Arial;
+}
+footer{text-align:center;font:9px Arial;letter-spacing:2px;color:#a98b81;padding:20px}
 @media(max-width:650px){
  .game{grid-template-columns:1fr}
- #face svg{max-width:260px}
- .panel{padding:13px}
+ .panel{padding:14px}
+ #face svg{max-width:280px}
 }
 </style>
 </head>
@@ -99,195 +128,311 @@ footer{text-align:center;font:9px Arial;letter-spacing:2px;color:#a98b81;padding
  <h1>Blush</h1>
  <p>YOUR LITTLE BEAUTY STUDIO</p>
 </header>
+
 <main>
-<section class="panel">
- <h2>Choose your customer</h2>
- <div class="customers" id="customers"></div>
+<section class="panel" id="startScreen">
+ <h2>Welcome to Blush</h2>
+ <p>Your beauty chair is ready.<br>
+ Meet a new customer and create their perfect skincare and makeup look.</p>
+ <button class="startButton" onclick="startGame()">START</button>
 </section>
+
 <div class="game" id="game">
-<section class="panel face-panel">
+<section class="panel facePanel">
  <div id="customerName"></div>
  <div id="customerInfo"></div>
  <div id="face"></div>
- <div class="progress"><div id="progress"></div></div>
- <div class="stepnum" id="stepnum"></div>
- <p id="message">Choose a product to begin.</p>
- <button class="secondary" onclick="resetLook()">Start over</button>
+ <div class="stepProgress" id="progress"></div>
+ <div id="stepNumber"></div>
+ <p id="status">Choose your first product.</p>
+ <button class="secondary" onclick="restart()">Restart makeover</button>
 </section>
+
 <section class="panel">
- <h2 id="stepTitle">Skincare</h2>
- <h3 id="stepDescription">CHOOSE A PRODUCT</h3>
+ <h2 id="category">Skincare</h2>
+ <h3 id="stepTitle">STEP 01 · CLEANSER</h3>
+ <p style="font:12px Arial;color:#a58b81">Choose one product to use.</p>
  <div class="products" id="products"></div>
- <div id="shadeArea" style="display:none">
-  <h3>CHOOSE YOUR SHADE</h3>
+
+ <div id="shadeSection" style="display:none">
+  <h3 class="shadeTitle">CHOOSE A SHADE</h3>
   <div class="shades" id="shades"></div>
-  <p id="shadeName" style="font:12px Arial;color:#987b73"></p>
+  <p id="shadeLabel"></p>
  </div>
- <button class="apply" id="apply" onclick="applyProduct()" disabled>Apply product</button>
+
+ <div class="actionBox" id="actionBox" style="display:none">
+  <h3 id="actionTitle">APPLY YOUR PRODUCT</h3>
+  <p id="actionDescription">Ready to begin?</p>
+  <button class="actionButton" id="actionButton" onclick="doAction()">Start applying</button>
+  <div id="actionProgress"><div id="actionFill"></div></div>
+  <div id="blendHint"></div>
+ </div>
+
+ <div id="nextArea">
+  <button class="mainButton" onclick="nextStep()">NEXT STEP</button>
+ </div>
+
  <div class="nav">
-  <button class="secondary" onclick="move(-1)">Back</button>
-  <button class="secondary" onclick="move(1)">Next</button>
+  <button class="secondary" onclick="previousStep()">BACK</button>
+  <button class="secondary" onclick="resetStep()">RESET STEP</button>
  </div>
 </section>
 </div>
-<section class="panel" id="finish">
- <h2>Finished look</h2>
- <div id="finishedFace"></div>
- <p id="finishedName"></p>
- <button class="apply" onclick="newCustomer()">Next customer</button>
- <button class="secondary" onclick="replay()">Start again</button>
+
+<section class="panel" id="finishScreen">
+ <h2>Beautiful!</h2>
+ <div id="finalFace"></div>
+ <p id="finalName"></p>
+ <p>Your customer's makeover is complete.</p>
+ <button class="mainButton" onclick="startNextCustomer()">NEXT CUSTOMER</button>
+ <br><br>
+ <button class="secondary" onclick="replayCustomer()">DO ANOTHER LOOK</button>
 </section>
 </main>
 <footer>BLUSH BEAUTY STUDIO</footer>
+
 <script>
 const customers=[
-{name:"Sophie",info:"Warm brown eyes · Long brunette hair",skin:"#D9A17D",hair:"#493025",eyes:"#68452F",style:"long"},
-{name:"Mila",info:"Blue eyes · Blonde waves",skin:"#F2D1B7",hair:"#D4A45D",eyes:"#648B9C",style:"waves"},
-{name:"Amara",info:"Dark brown eyes · Natural curls",skin:"#89583F",hair:"#241C1A",eyes:"#30221E",style:"curly"},
-{name:"Jade",info:"Green eyes · Black bob",skin:"#C98F70",hair:"#30211F",eyes:"#64805B",style:"bob"},
-{name:"Isabella",info:"Hazel eyes · Auburn hair",skin:"#E8B99B",hair:"#87452D",eyes:"#88704A",style:"long"}
+{name:"Sophie",info:"Warm brown eyes · Long brunette hair",skin:"#D9A17D",hair:"#493025",eyes:"#68452F",style:0,shirt:"#E9C3CA",brow:"#493025"},
+{name:"Mila",info:"Blue eyes · Blonde waves",skin:"#F2D1B7",hair:"#D4A45D",eyes:"#648B9C",style:1,shirt:"#C5D5C3",brow:"#A47B4B"},
+{name:"Amara",info:"Dark brown eyes · Natural curls",skin:"#89583F",hair:"#241C1A",eyes:"#30221E",style:2,shirt:"#D6B9C8",brow:"#241C1A"},
+{name:"Jade",info:"Green eyes · Black bob",skin:"#C98F70",hair:"#30211F",eyes:"#64805B",style:3,shirt:"#C7D8D5",brow:"#30211F"},
+{name:"Isabella",info:"Hazel eyes · Auburn hair",skin:"#E8B99B",hair:"#87452D",eyes:"#88704A",style:1,shirt:"#E7C6A8",brow:"#87452D"},
+{name:"Nina",info:"Brown eyes · Dark wavy hair",skin:"#A96F51",hair:"#332321",eyes:"#493426",style:1,shirt:"#D8C4DD",brow:"#332321"},
+{name:"Lily",info:"Green eyes · Light brown hair",skin:"#E9C3A5",hair:"#8C6244",eyes:"#64805B",style:0,shirt:"#E7D6B8",brow:"#8C6244"}
 ];
+
 const steps=[
-{name:"Cleanser",type:"skin",items:["CeraVe Cleanser","Glow Recipe Cleanser","La Roche-Posay Cleanser"]},
-{name:"Toner",type:"skin",items:["Glow Recipe Toner","Hydrating Toner","Milky Toner"]},
-{name:"Serum",type:"skin",items:["Glowing Serum","Hydrating Serum","Vitamin C Serum"]},
-{name:"Moisturizer",type:"skin",items:["Rhode Barrier Cream","CeraVe Moisturizer","Plum Cream"]},
-{name:"Sunscreen",type:"skin",items:["Daily SPF","Glowy SPF","Hydrating SPF"]},
-{name:"Lip Care",type:"skin",items:["Laneige Lip Mask","Summer Fridays Balm","Rhode Lip Treatment"]},
-{name:"Primer",type:"makeup",items:["Glowy Primer","Hydrating Primer","Blurring Primer"]},
-{name:"Foundation",type:"makeup",items:["Glowy Skin Tint","Soft Matte Foundation","Natural Foundation"],shades:"skin"},
-{name:"Concealer",type:"makeup",items:["Brightening Concealer","Hydrating Concealer","Full Coverage Concealer"],shades:"concealer"},
-{name:"Bronzer",type:"makeup",items:["Cream Bronzer","Warm Bronzer","Soft Matte Bronzer"],shades:"bronzer"},
-{name:"Blush",type:"makeup",items:["Rare Beauty Blush","Dewy Cream Blush","Soft Powder Blush"],shades:"blush"},
-{name:"Highlighter",type:"makeup",items:["Glowy Highlighter","Liquid Highlight","Shimmer Powder"],shades:"highlight"},
-{name:"Eyebrows",type:"makeup",items:["Brow Gel","Brow Pencil","Brow Wax"],shades:"brow"},
-{name:"Eyeshadow",type:"makeup",items:["Everyday Palette","Pink Palette","Glam Palette"],shades:"eyes"},
-{name:"Eyeliner",type:"makeup",items:["Brown Liner","Black Liner","Soft Pencil"],shades:"liner"},
-{name:"Mascara",type:"makeup",items:["Lengthening Mascara","Volumizing Mascara","Brown Mascara"]},
-{name:"Lip Liner",type:"makeup",items:["Nude Lip Liner","Pink Lip Liner","Brown Lip Liner"],shades:"lips"},
-{name:"Lip Gloss",type:"makeup",items:["Summer Fridays Gloss","Tower 28 Gloss","Shiny Lip Oil"],shades:"gloss"},
-{name:"Setting Spray",type:"makeup",items:["Dewy Setting Spray","Natural Setting Spray","Matte Setting Spray"]}
+{name:"Cleanser",type:"skin",products:[["CeraVe","Hydrating Cleanser","bottle"],["Glow Recipe","Blueberry Cleanser","green"],["La Roche-Posay","Gentle Cleanser","tube"]],action:"Rub gently in circles",desc:"Massage the cleanser around the face, then rinse it away.",times:3},
+{name:"Toner",type:"skin",products:[["Glow Recipe","Watermelon Toner","pink"],["Rhode","Glazing Milk","bottle"],["Byoma","Hydrating Toner","green"]],action:"Pat into skin",desc:"Gently pat the toner across the face.",times:3},
+{name:"Serum",type:"skin",products:[["The Ordinary","Hydrating Serum","bottle"],["Glow Recipe","Dew Drops","pink"],["Rhode","Glazing Serum","bottle"]],action:"Pat in serum",desc:"Tap the serum gently into the skin.",times:3},
+{name:"Moisturizer",type:"skin",products:[["Rhode","Barrier Butter","jar"],["CeraVe","Moisturizing Cream","jar"],["Glow Recipe","Plum Cream","pink"]],action:"Rub in moisturizer",desc:"Use gentle circular motions to rub in the moisturizer.",times:3},
+{name:"Sunscreen",type:"skin",products:[["Beauty of Joseon","Relief Sun","tube"],["La Roche-Posay","SPF 50","tube"],["Supergoop","Unseen Sunscreen","tube"]],action:"Spread sunscreen",desc:"Spread an even layer over the face.",times:3},
+{name:"Lip Care",type:"skin",products:[["Laneige","Lip Sleeping Mask","jar"],["Summer Fridays","Lip Butter","pink"],["Rhode","Peptide Lip Treatment","tube"]],action:"Apply lip care",desc:"Gently apply the lip product.",times:1},
+{name:"Primer",type:"makeup",products:[["e.l.f.","Power Grip Primer","green"],["Milk Makeup","Hydro Grip","bottle"],["Rare Beauty","Always an Optimist","pink"]],action:"Blend primer",desc:"Smooth primer evenly over the face.",times:3},
+{name:"Foundation",type:"makeup",products:[["Saie","Glowy Super Skin","tube"],["Rare Beauty","Tinted Moisturizer","bottle"],["Fenty Beauty","Skin Tint","bottle"]],shade:"skin",action:"Blend foundation",desc:"Blend the foundation outward for a natural finish.",times:5},
+{name:"Concealer",type:"makeup",products:[["Tower 28","Swipe Concealer","tube"],["NARS","Radiant Concealer","tube"],["Rare Beauty","Liquid Touch","tube"]],shade:"concealer",action:"Blend concealer",desc:"Tap and blend under the eyes and around the nose.",times:4},
+{name:"Bronzer",type:"makeup",products:[["Saie","Sun Melt","jar"],["Rare Beauty","Warm Wishes","pink"],["Fenty Beauty","Cream Bronzer","jar"]],shade:"bronzer",action:"Blend bronzer",desc:"Blend softly along the cheeks and forehead.",times:4},
+{name:"Blush",type:"makeup",products:[["Rare Beauty","Soft Pinch Blush","pink"],["Rhode","Pocket Blush","pink"],["Tower 28","BeachPlease Blush","jar"]],shade:"blush",action:"Blend blush",desc:"Blend the blush softly into the cheeks.",times:4},
+{name:"Highlighter",type:"makeup",products:[["Saie","Glowy Super Gel","tube"],["Rare Beauty","Positive Light","bottle"],["Charlotte Tilbury","Beauty Light Wand","tube"]],shade:"highlight",action:"Blend highlighter",desc:"Blend the glow over the cheekbones.",times:3},
+{name:"Eyebrows",type:"makeup",products:[["Benefit","Brow Gel","tube"],["NYX","Brow Pencil","tube"],["e.l.f.","Brow Lift","jar"]],shade:"brow",action:"Brush eyebrows",desc:"Brush the brows into place.",times:3},
+{name:"Eyeshadow",type:"makeup",products:[["ColourPop","Everyday Palette","palette"],["e.l.f.","Bite Size Palette","palette"],["Tarte","Mini Palette","palette"]],shade:"eyes",action:"Blend eyeshadow",desc:"Blend the color across the eyelids.",times:4},
+{name:"Eyeliner",type:"makeup",products:[["NYX","Epic Ink","tube"],["Stila","Stay All Day","tube"],["e.l.f.","No Budge Liner","tube"]],shade:"liner",action:"Apply eyeliner",desc:"Draw a soft line along the lash line.",times:2},
+{name:"Mascara",type:"makeup",products:[["Maybelline","Sky High","tube"],["Benefit","Roller Lash","tube"],["Tower 28","MakeWaves","tube"]],action:"Brush on mascara",desc:"Brush mascara from the roots toward the tips.",times:3},
+{name:"Lip Liner",type:"makeup",products:[["NYX","Lip Pencil","tube"],["Makeup Forever","Artist Color Pencil","tube"],["Charlotte Tilbury","Lip Cheat","tube"]],shade:"lips",action:"Line the lips",desc:"Trace the natural lip line.",times:2},
+{name:"Lip Gloss",type:"makeup",products:[["Summer Fridays","Lip Butter Balm","tube"],["Tower 28","ShineOn Gloss","tube"],["Rhode","Peptide Lip Tint","tube"]],shade:"gloss",action:"Apply lip gloss",desc:"Add a smooth, glossy finish.",times:1},
+{name:"Setting Spray",type:"makeup",products:[["Charlotte Tilbury","Setting Spray","tube"],["Rare Beauty","Always an Optimist","tube"],["NYX","Dewy Finish Spray","tube"]],action:"Set the makeup",desc:"Finish with a light mist of setting spray.",times:1}
 ];
+
 const palettes={
-blush:[["#E98A9B","Petal pink"],["#CB657B","Berry"],["#DF9270","Peach"],["#A84E55","Rose"],["#D76C9A","Pink"],["#B66E52","Terracotta"]],
-bronzer:[["#B77B4E","Light"],["#96603C","Medium"],["#704329","Deep"],["#D19A6B","Golden"]],
+skin:[["#F6DDC9","Fair"],["#EBC2A7","Light"],["#D8A17F","Medium"],["#BD815E","Tan"],["#986448","Deep"],["#704532","Rich"]],
+concealer:[["#F8E0CD","Fair"],["#EDC5AA","Light"],["#D9A27F","Medium"],["#BD835F","Tan"],["#986348","Deep"]],
+bronzer:[["#D7A477","Light"],["#B77B4E","Medium"],["#96603C","Tan"],["#704329","Deep"]],
+blush:[["#F1A5AC","Baby pink"],["#DF8293","Rose"],["#CF667D","Berry"],["#E9A17E","Peach"],["#AD6264","Terracotta"],["#D783AD","Pink"]],
 highlight:[["#F8D9A6","Champagne"],["#F7C6C6","Pink pearl"],["#E7B66E","Gold"],["#F5E8DB","Pearl"]],
-eyes:[["#D9B18B","Caramel"],["#C68BA0","Rose"],["#9271A6","Lavender"],["#8B765A","Brown"],["#D6B75E","Gold"],["#B6A9D2","Lilac"]],
+eyes:[["#D9B18B","Caramel"],["#C68BA0","Rose"],["#9271A6","Lavender"],["#8B765A","Brown"],["#D6B75E","Gold"],["#B6A9D2","Lilac"],["#A8BBA1","Sage"]],
 lips:[["#A85C56","Nude"],["#C86D7D","Rose"],["#9D4749","Berry"],["#B87962","Brown"],["#DA879B","Pink"]],
 gloss:[["#F4A4B5","Pink"],["#D88C79","Peach"],["#B56B79","Rose"],["#E5B3A0","Nude"]],
 liner:[["#30231E","Black"],["#68432F","Brown"],["#765C82","Plum"]],
-brow:[["#55392C","Dark brown"],["#926344","Medium brown"],["#B68C65","Light brown"]],
-skin:[["#F7D6BF","Fair"],["#EAB99B","Light"],["#D49A75","Medium"],["#B97955","Tan"],["#89583F","Deep"],["#603B2D","Rich"]],
-concealer:[["#F8DDC8","Fair"],["#EAC0A3","Light"],["#D9A27C","Medium"],["#B77D5D","Tan"],["#916047","Deep"]]
+brow:[["#55392C","Dark brown"],["#926344","Medium brown"],["#B68C65","Light brown"]]
 };
-let person=0,step=0,selected=-1,selectedShade=null;
-let looks={};
-function freshLook(){return{skin:{},makeup:{},products:{}}}
-function getLook(){return looks[person]||(looks[person]=freshLook())}
-function init(){
- document.getElementById("customers").innerHTML=customers.map((c,i)=>
- `<button class="customer ${i===person?'active':''}" onclick="chooseCustomer(${i})">
- <span class="portrait" style="background:linear-gradient(135deg,${c.hair} 40%,${c.skin} 40%)"></span>${c.name}</button>`).join("");
- showCustomer();
+
+let customer=null,step=0,chosen=-1,chosenShade=null,progress=0;
+let completed={},seen=[];
+let actionReady=false;
+
+function startGame(){
+ document.getElementById("startScreen").style.display="none";
+ document.getElementById("finishScreen").style.display="none";
+ document.getElementById("game").style.display="grid";
+ chooseRandom();
 }
-function chooseCustomer(i){person=i;step=0;selected=-1;selectedShade=null;init();renderStep()}
+function chooseRandom(){
+ let available=customers.map((_,i)=>i).filter(i=>!seen.includes(i));
+ if(!available.length)seen=[];
+ let pool=customers.map((_,i)=>i).filter(i=>!seen.includes(i));
+ let i=pool[Math.floor(Math.random()*pool.length)];
+ seen.push(i);
+ customer=customers[i];step=0;completed={};
+ showCustomer();renderStep();
+}
 function showCustomer(){
- const c=customers[person];
- document.getElementById("customerName").textContent=c.name;
- document.getElementById("customerInfo").textContent=c.info;
+ document.getElementById("customerName").textContent=customer.name;
+ document.getElementById("customerInfo").textContent=customer.info;
+ drawFace("face");
+}
+function renderStep(){
+ const s=steps[step];chosen=-1;chosenShade=null;progress=0;actionReady=false;
+ document.getElementById("category").textContent=s.type==="skin"?"Skincare":"Makeup";
+ document.getElementById("stepTitle").textContent=`STEP ${String(step+1).padStart(2,"0")} — ${s.name.toUpperCase()}`;
+ document.getElementById("stepNumber").textContent=`${step+1} OF ${steps.length}`;
+ document.getElementById("progress").innerHTML=steps.map((_,i)=>`<span class="${i<=step?'done':''}"></span>`).join("");
+ document.getElementById("products").innerHTML=s.products.map((p,i)=>`
+ <button class="product" onclick="selectProduct(${i})">
+ <span class="visual">${productArt(p[2])}</span>
+ <span class="productName">${p[1]}</span>
+ <span class="productBrand">${p[0]}</span>
+ </button>`).join("");
+ document.getElementById("shadeSection").style.display=s.shade?"block":"none";
+ document.getElementById("shades").innerHTML="";
+ document.getElementById("shadeLabel").textContent="";
+ document.getElementById("actionBox").style.display="none";
+ document.getElementById("nextArea").style.display="none";
+ document.getElementById("status").textContent="Choose a product to begin.";
+ document.getElementById("actionFill").style.width="0%";
+}
+function productArt(type){
+ if(type==="jar")return '<span class="jar"></span>';
+ if(type==="tube")return '<span class="tube"></span>';
+ if(type==="palette")return '<span class="palette"><i></i><i></i><i></i><i></i><i></i><i></i></span>';
+ let cls=type==="green"?"green":type==="pink"?"pink":"";
+ return `<span class="bottle ${cls}"></span>`;
+}
+function selectProduct(i){
+ chosen=i;chosenShade=null;
+ document.querySelectorAll(".product").forEach((p,n)=>p.classList.toggle("selected",n===i));
+ const s=steps[step];
+ if(s.shade){
+  document.getElementById("shades").innerHTML=palettes[s.shade].map((x,n)=>
+  `<button class="shade" title="${x[1]}" style="background:${x[0]}" onclick="selectShade(${n})"></button>`).join("");
+  document.getElementById("shadeLabel").textContent="Choose a color.";
+ }
+ document.getElementById("status").textContent="Product selected.";
+ if(!s.shade)showAction();
+}
+function selectShade(i){
+ chosenShade=i;
+ document.querySelectorAll(".shade").forEach((p,n)=>p.classList.toggle("active",n===i));
+ document.getElementById("shadeLabel").textContent=palettes[steps[step].shade][i][1];
+ showAction();
+}
+function showAction(){
+ const s=steps[step];
+ if(chosen<0||(s.shade&&chosenShade===null))return;
+ document.getElementById("actionBox").style.display="block";
+ document.getElementById("actionTitle").textContent=s.action.toUpperCase();
+ document.getElementById("actionDescription").textContent=s.desc;
+ document.getElementById("actionButton").textContent=s.type==="skin"?"Start applying":"Start applying";
+ document.getElementById("actionButton").disabled=false;
+ document.getElementById("blendHint").textContent="Follow the steps to finish applying.";
+ document.getElementById("status").textContent="Ready for application.";
+}
+function doAction(){
+ if(chosen<0)return;
+ const s=steps[step];
+ progress++;
+ document.getElementById("actionFill").style.width=(progress/s.times*100)+"%";
+ document.getElementById("actionButton").textContent=progress<s.times?
+ (s.type==="skin"?"Rub in ("+progress+"/"+s.times+")":"Blend ("+progress+"/"+s.times+")"):"Finished!";
+ document.getElementById("blendHint").textContent=progress<s.times?
+ "Keep going to finish applying.":"Application complete.";
+ updateAppliedFace();
+ if(progress>=s.times){
+  document.getElementById("actionButton").disabled=true;
+  document.getElementById("nextArea").style.display="block";
+  document.getElementById("status").textContent="Step completed.";
+  completed[step]={product:steps[step].products[chosen][1],
+   shade:chosenShade===null?null:palettes[s.shade][chosenShade][0]};
+ }
+}
+function nextStep(){
+ if(step===steps.length-1){finish();return}
+ step++;renderStep();
+}
+function previousStep(){if(step>0){step--;renderStep()}}
+function resetStep(){
+ delete completed[step];renderStep();drawFace("face");
+}
+function restart(){
+ completed={};step=0;renderStep();drawFace("face");
+}
+function updateAppliedFace(){
  drawFace("face");
 }
 function drawFace(target){
- const c=customers[person],l=getLook(),m=l.makeup;
- let hairBack=`<path d="M75 170 Q55 42 155 43 Q255 42 245 170 L238 310 L75 310Z" fill="${c.hair}"/>`;
- if(c.style==="bob")hairBack=`<path d="M75 170 Q55 42 155 43 Q255 42 245 170 L235 255 L85 255Z" fill="${c.hair}"/>`;
- if(c.style==="curly")hairBack=`<path d="M76 170 Q40 80 100 54 Q145 20 190 55 Q270 65 245 175 L230 240 L88 240Z" fill="${c.hair}"/>`;
- let foundation=m.foundation?.shade||c.skin;
- let svg=`<svg viewBox="0 0 320 365" xmlns="http://www.w3.org/2000/svg">
+ let applied=completed;
+ let current=step;
+ let s=steps[current];
+ if(chosen>=0&&progress>0){
+  applied={...completed};
+  applied[current]={shade:chosenShade===null?null:palettes[s.shade][chosenShade][0],product:s.products[chosen][1]};
+ }
+ const get=(n)=>applied[n]?.shade;
+ const m={};
+ steps.forEach((s,i)=>{
+  if(applied[i]){
+   const key=s.name.toLowerCase();
+   m[key]=applied[i];
+  }
+ });
+ const skin=get(7)||customer.skin;
+ const blush=get(10),bronzer=get(9),shadow=get(13),lip=get(17)||get(16),liner=get(14),highlight=get(11),brow=get(12)||customer.brow,concealer=get(8);
+ const mascara=!!applied[15];
+ let hair=customer.hair;
+ let hairBack=customer.style===3?
+ `<path d="M66 165 Q55 46 160 43 Q265 46 254 165 L248 248 Q232 225 225 175 L95 175 Q88 225 72 248Z" fill="${hair}"/>`:
+ `<path d="M65 168 Q52 45 160 40 Q268 45 255 168 L246 320 Q225 295 225 180 Q210 100 160 96 Q110 100 95 180 Q95 295 74 320Z" fill="${hair}"/>`;
+ let bangs=customer.style===0?
+ `<path d="M78 126 Q95 52 160 62 Q225 52 242 126 Q210 102 190 105 Q145 87 110 112Z" fill="${hair}"/>`:
+ customer.style===1?
+ `<path d="M78 126 Q95 49 160 62 Q230 46 243 128 Q210 102 185 108 Q125 92 78 126Z" fill="${hair}"/>`:
+ customer.style===2?
+ `<path d="M75 128 Q92 47 160 53 Q235 43 245 128 Q215 91 185 100 Q125 81 75 128Z" fill="${hair}"/>`:
+ `<path d="M76 127 Q90 52 160 57 Q225 52 244 127 Q205 104 160 105 Q115 105 76 127Z" fill="${hair}"/>`;
+ let svg=`
+ <svg viewBox="0 0 320 390" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+ <filter id="soft"><feGaussianBlur stdDeviation="5"/></filter>
+ <filter id="light"><feGaussianBlur stdDeviation="2.5"/></filter>
+ </defs>
+ <ellipse cx="160" cy="370" rx="95" ry="15" fill="#d8bdb5" opacity=".3"/>
  ${hairBack}
- <ellipse cx="160" cy="183" rx="83" ry="112" fill="${foundation}"/>
- <path d="M78 178 Q45 150 76 195 L91 195 M242 178 Q275 150 244 195 L229 195" fill="${foundation}"/>
- ${m.bronzer?`<path d="M89 202 Q115 220 131 204 Q110 242 90 230Z M231 202 Q205 220 189 204 Q210 242 230 230Z" fill="${m.bronzer.shade}" opacity=".4"/>`:""}
- ${m.concealer?`<ellipse cx="124" cy="194" rx="22" ry="8" fill="${m.concealer.shade}" opacity=".5"/><ellipse cx="196" cy="194" rx="22" ry="8" fill="${m.concealer.shade}" opacity=".5"/>`:""}
- ${m.blush?`<ellipse cx="112" cy="211" rx="24" ry="13" fill="${m.blush.shade}" opacity=".65"/><ellipse cx="208" cy="211" rx="24" ry="13" fill="${m.blush.shade}" opacity=".65"/>`:""}
- ${m.highlighter?`<ellipse cx="111" cy="204" rx="13" ry="5" fill="${m.highlighter.shade}" opacity=".7"/><ellipse cx="209" cy="204" rx="13" ry="5" fill="${m.highlighter.shade}" opacity=".7"/>`:""}
- <path d="M103 157 Q125 143 145 157 M175 157 Q195 143 217 157" stroke="${m.eyebrows?.shade||c.hair}" stroke-width="7" stroke-linecap="round" fill="none"/>
- ${m.eyeshadow?`<ellipse cx="125" cy="177" rx="24" ry="11" fill="${m.eyeshadow.shade}" opacity=".7"/><ellipse cx="195" cy="177" rx="24" ry="11" fill="${m.eyeshadow.shade}" opacity=".7"/>`:""}
- <ellipse cx="125" cy="178" rx="17" ry="7" fill="white"/><ellipse cx="195" cy="178" rx="17" ry="7" fill="white"/>
- <circle cx="125" cy="178" r="6" fill="${c.eyes}"/><circle cx="195" cy="178" r="6" fill="${c.eyes}"/>
- <circle cx="127" cy="176" r="2" fill="white"/><circle cx="197" cy="176" r="2" fill="white"/>
- ${m.eyeliner?`<path d="M105 177 Q125 165 145 177 L151 172 M175 177 Q195 165 215 177 L221 172" fill="none" stroke="${m.eyeliner.shade}" stroke-width="3" stroke-linecap="round"/>`:""}
- ${m.mascara?`<path d="M108 171 L103 164 M115 168 L113 161 M135 168 L138 161 M182 168 L180 161 M203 168 L207 161 M212 171 L217 164" stroke="#29201E" stroke-width="2.5" stroke-linecap="round"/>`:""}
- <path d="M160 184 Q151 210 160 211" stroke="#B77C65" stroke-width="2" fill="none" opacity=".6"/>
- <path d="M145 235 Q160 225 175 235 Q160 254 145 235Z" fill="${m["lip gloss"]?.shade||m["lip liner"]?.shade||"#B86F72"}"/>
- ${c.style==="waves"?`<path d="M82 150 Q45 220 95 285 M238 150 Q275 220 225 285" fill="none" stroke="${c.hair}" stroke-width="18" stroke-linecap="round"/>`:""}
- ${c.style==="bob"?`<path d="M75 135 Q65 220 100 265 M245 135 Q255 220 220 265" fill="none" stroke="${c.hair}" stroke-width="17"/>`:""}
- <path d="M125 292 Q160 310 195 292 L208 365 L112 365Z" fill="#E8BFC5"/>
+ <path d="M100 278 Q160 310 220 278 L252 390 L68 390Z" fill="${customer.shirt}"/>
+ <path d="M130 273 L130 310 Q160 335 190 310 L190 273Z" fill="${skin}"/>
+ <ellipse cx="160" cy="185" rx="83" ry="112" fill="${skin}"/>
+ <ellipse cx="77" cy="196" rx="12" ry="19" fill="${skin}"/>
+ <ellipse cx="243" cy="196" rx="12" ry="19" fill="${skin}"/>
+ <path d="M92 160 Q109 141 145 153" fill="none" stroke="${brow}" stroke-width="5" stroke-linecap="round"/>
+ <path d="M175 153 Q211 141 228 160" fill="none" stroke="${brow}" stroke-width="5" stroke-linecap="round"/>
+ ${shadow?`<ellipse cx="123" cy="179" rx="25" ry="13" fill="${shadow}" opacity=".5" filter="url(#light)"/><ellipse cx="197" cy="179" rx="25" ry="13" fill="${shadow}" opacity=".5" filter="url(#light)"/>`:""}
+ <path d="M101 180 Q124 161 147 180 Q125 196 101 180Z" fill="#fff"/>
+ <path d="M173 180 Q196 161 219 180 Q195 196 173 180Z" fill="#fff"/>
+ <ellipse cx="125" cy="180" rx="8" ry="10" fill="${customer.eyes}"/>
+ <ellipse cx="195" cy="180" rx="8" ry="10" fill="${customer.eyes}"/>
+ <ellipse cx="127" cy="176" rx="3" ry="4" fill="#fff"/>
+ <ellipse cx="197" cy="176" rx="3" ry="4" fill="#fff"/>
+ ${mascara?`<path d="M103 171 L98 164 M111 167 L108 160 M137 168 L142 161 M177 168 L174 161 M207 167 L212 160 M217 171 L222 164" stroke="#33221f" stroke-width="2.5" stroke-linecap="round"/>`:""}
+ ${liner?`<path d="M100 179 Q124 159 147 179 M173 179 Q196 159 220 179" fill="none" stroke="${liner}" stroke-width="2.8" stroke-linecap="round"/>`:""}
+ <path d="M160 190 Q150 214 160 215 Q170 214 160 190" fill="none" stroke="#B77C65" stroke-width="2" opacity=".5"/>
+ ${concealer?`<ellipse cx="125" cy="200" rx="20" ry="7" fill="${concealer}" opacity=".32" filter="url(#soft)"/><ellipse cx="195" cy="200" rx="20" ry="7" fill="${concealer}" opacity=".32" filter="url(#soft)"/>`:""}
+ ${bronzer?`<ellipse cx="105" cy="220" rx="23" ry="13" fill="${bronzer}" opacity=".28" filter="url(#soft)"/><ellipse cx="215" cy="220" rx="23" ry="13" fill="${bronzer}" opacity=".28" filter="url(#soft)"/>`:""}
+ ${blush?`<ellipse cx="111" cy="220" rx="25" ry="16" fill="${blush}" opacity=".58" filter="url(#soft)"/><ellipse cx="209" cy="220" rx="25" ry="16" fill="${blush}" opacity=".58" filter="url(#soft)"/>`:""}
+ ${highlight?`<ellipse cx="110" cy="207" rx="15" ry="5" fill="${highlight}" opacity=".6" filter="url(#light)"/><ellipse cx="210" cy="207" rx="15" ry="5" fill="${highlight}" opacity=".6" filter="url(#light)"/>`:""}
+ <path d="M141 249 Q151 239 160 245 Q169 239 179 249 Q171 268 160 266 Q149 268 141 249Z" fill="${lip||"#BD777B"}"/>
+ <path d="M145 248 Q160 243 175 248" fill="none" stroke="#9D6266" stroke-width="1.5" opacity=".6"/>
+ <path d="M147 253 Q160 257 173 253" fill="none" stroke="#fff" stroke-width="1" opacity=".35"/>
+ ${bangs}
+ ${customer.style===2?Array.from({length:9},(_,i)=>`<circle cx="${70+(i%3)*12}" cy="${65+Math.floor(i/3)*12}" r="13" fill="${hair}"/>`).join(""):""}
+ <path d="M100 335 Q160 318 220 335" stroke="#fff" stroke-width="2" opacity=".4" fill="none"/>
  </svg>`;
  document.getElementById(target).innerHTML=svg;
 }
-function renderStep(){
- const s=steps[step];selected=-1;selectedShade=null;
- document.getElementById("stepTitle").textContent=s.type==="skin"?"Skincare":"Makeup";
- document.getElementById("stepDescription").textContent=`STEP ${String(step+1).padStart(2,"0")} · CHOOSE YOUR ${s.name.toUpperCase()}`;
- document.getElementById("stepnum").textContent=`${step+1} OF ${steps.length}`;
- document.getElementById("progress").style.width=((step+1)/steps.length*100)+"%";
- document.getElementById("products").innerHTML=s.items.map((item,i)=>
- `<button class="product" onclick="selectProduct(${i})"><span class="bottle"></span><strong>${item}</strong><small>Choose product</small></button>`).join("");
- document.getElementById("shadeArea").style.display=s.shades?"block":"none";
- document.getElementById("shades").innerHTML="";
- document.getElementById("apply").disabled=true;
- document.getElementById("message").textContent="Choose your favorite product.";
-}
-function selectProduct(i){
- selected=i;selectedShade=null;
- document.querySelectorAll(".product").forEach((p,n)=>p.classList.toggle("selected",n===i));
- const s=steps[step];
- document.getElementById("apply").disabled=false;
- if(s.shades){
- const colors=palettes[s.shades];
- document.getElementById("shades").innerHTML=colors.map((x,n)=>
- `<button class="shade" title="${x[1]}" style="background:${x[0]}" onclick="selectShade(${n})"></button>`).join("");
- document.getElementById("shadeName").textContent="Choose a shade.";
- }else{document.getElementById("shadeName").textContent=""}
-}
-function selectShade(i){
- selectedShade=i;
- document.querySelectorAll(".shade").forEach((p,n)=>p.classList.toggle("active",n===i));
- document.getElementById("shadeName").textContent=palettes[steps[step].shades][i][1];
-}
-function applyProduct(){
- if(selected<0)return;
- const s=steps[step];
- if(s.shades&&selectedShade===null){document.getElementById("message").textContent="Pick a shade first.";return}
- const l=getLook(),entry={product:s.items[selected]};
- if(s.shades){entry.shade=palettes[s.shades][selectedShade][0];entry.shadeName=palettes[s.shades][selectedShade][1]}
- if(s.type==="skin")l.skin[s.name.toLowerCase()]=entry;
- else l.makeup[s.name.toLowerCase()]=entry;
- l.products[s.name]=entry;
- drawFace("face");
- document.getElementById("message").textContent="Product applied.";
- if(step<steps.length-1)setTimeout(()=>{step++;renderStep()},400);
- else setTimeout(finish,400);
-}
-function move(n){step=Math.max(0,Math.min(steps.length-1,step+n));renderStep()}
-function resetLook(){looks[person]=freshLook();step=0;drawFace("face");renderStep();document.getElementById("message").textContent="Fresh start."}
 function finish(){
  document.getElementById("game").style.display="none";
- document.getElementById("finish").style.display="block";
- drawFace("finishedFace");
- document.getElementById("finishedName").textContent=customers[person].name+"'s finished look";
+ document.getElementById("finishScreen").style.display="block";
+ drawFace("finalFace");
+ document.getElementById("finalName").textContent=customer.name+"'s finished look";
 }
-function newCustomer(){
- document.getElementById("finish").style.display="none";
+function startNextCustomer(){
+ document.getElementById("finishScreen").style.display="none";
  document.getElementById("game").style.display="grid";
- person=(person+1)%customers.length;step=0;init();renderStep();
+ chooseRandom();
 }
-function replay(){
- document.getElementById("finish").style.display="none";
- document.getElementById("game").style.display="grid";resetLook();
+function replayCustomer(){
+ document.getElementById("finishScreen").style.display="none";
+ document.getElementById("game").style.display="grid";
+ completed={};step=0;renderStep();drawFace("face");
 }
-init();renderStep();
 </script>
 </body>
 </html>
