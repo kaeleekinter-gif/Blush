@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blush</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#f5eee9;color:#604e48;
+ font-family:Georgia,serif;
+}
+header{text-align:center;padding:25px 12px 15px}
+header h1{font-size:38px;font-weight:normal;font-style:italic;color:#ad7886;margin:0}
+header p{font:10px Arial;letter-spacing:3px;color:#a58b81}
+main{max-width:1000px;margin:auto;padding:12px}
+.panel{
+ background:#fffaf6;border:1px solid #e9d9d0;
+ border-radius:15px;padding:17px;margin-bottom:15px;
+}
+h2{font-size:22px;font-weight:normal;font-style:italic;margin:0 0 13px}
+h3{font:11px Arial;letter-spacing:2px;color:#a17d77}
+.customers{display:flex;gap:10px;flex-wrap:wrap}
+.customer{
+ flex:1;min-width:95px;padding:13px 5px;
+ border:1px solid #e5d2ca;border-radius:10px;
+ background:#fff7f2;color:#765b54;cursor:pointer;
+ font:13px Arial;
+}
+.customer.active{background:#f0dce0;border:2px solid #b98594}
+.customer .portrait{
+ width:37px;height:37px;border-radius:50%;
+ display:block;margin:0 auto 8px;
+ border:3px solid #fff;box-shadow:0 0 0 1px #d5bcb3;
+}
+.game{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.face-panel{background:#f8e9e5;text-align:center;overflow:hidden}
+#customerName{font-size:25px;font-style:italic;margin:3px}
+#customerInfo{font:11px Arial;color:#987b73;margin:5px}
+#face svg{width:100%;max-width:300px;height:auto;display:block;margin:auto}
+.progress{height:4px;background:#eadbd5;border-radius:9px;margin:12px 0}
+#progress{height:4px;background:#bd8998;width:0;border-radius:9px}
+.stepnum{font:10px Arial;letter-spacing:2px;color:#a67c78}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.product{
+ border:1px solid #e9d8d0;background:#fffaf7;
+ border-radius:10px;padding:10px 5px;cursor:pointer;
+ color:#725951;min-width:0;
+}
+.product.selected{border:2px solid #bd8998;background:#f8e7e9}
+.product .bottle{
+ width:34px;height:48px;margin:0 auto 9px;
+ border:1px solid #cfaeaa;border-radius:6px 6px 9px 9px;
+ background:linear-gradient(90deg,#f0d6d3,#fff7f0,#eac9c8);
+ position:relative;
+}
+.product .bottle:before{
+ content:"";position:absolute;width:13px;height:9px;
+ background:#cba3a1;top:-9px;left:9px;border-radius:3px 3px 0 0;
+}
+.product strong{font:11px Arial;display:block}
+.product small{font:10px Arial;color:#a68a81;display:block;margin-top:5px}
+.product:hover{background:#f8eeee}
+.shades{display:flex;flex-wrap:wrap;gap:12px;margin:13px 0}
+.shade{
+ width:30px;height:30px;border-radius:50%;
+ border:2px solid white;box-shadow:0 0 0 1px #d9c5bc;
+ cursor:pointer;
+}
+.shade.active{box-shadow:0 0 0 2px #a87582}
+.apply{
+ background:#b87e8d;color:white;border:0;border-radius:20px;
+ padding:12px 24px;cursor:pointer;font:12px Arial;
+ margin-top:12px;width:100%;
+}
+.apply:disabled{opacity:.45;cursor:default}
+.secondary{
+ background:transparent;border:1px solid #d9b9b9;
+ border-radius:18px;padding:9px 16px;color:#986c76;
+ cursor:pointer;font:12px Arial;
+}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:15px}
+.nav button{flex:1}
+#message{font:12px Arial;color:#a07879;min-height:18px;margin-top:10px}
+#finish{display:none;text-align:center}
+#finish h2{font-size:29px}
+#finish button{margin:5px}
+footer{text-align:center;font:9px Arial;letter-spacing:2px;color:#a98b81;padding:18px}
+@media(max-width:650px){
+ .game{grid-template-columns:1fr}
+ #face svg{max-width:260px}
+ .panel{padding:13px}
+}
+</style>
+</head>
+<body>
+<header>
+ <h1>Blush</h1>
+ <p>YOUR LITTLE BEAUTY STUDIO</p>
+</header>
+<main>
+<section class="panel">
+ <h2>Choose your customer</h2>
+ <div class="customers" id="customers"></div>
+</section>
+<div class="game" id="game">
+<section class="panel face-panel">
+ <div id="customerName"></div>
+ <div id="customerInfo"></div>
+ <div id="face"></div>
+ <div class="progress"><div id="progress"></div></div>
+ <div class="stepnum" id="stepnum"></div>
+ <p id="message">Choose a product to begin.</p>
+ <button class="secondary" onclick="resetLook()">Start over</button>
+</section>
+<section class="panel">
+ <h2 id="stepTitle">Skincare</h2>
+ <h3 id="stepDescription">CHOOSE A PRODUCT</h3>
+ <div class="products" id="products"></div>
+ <div id="shadeArea" style="display:none">
+  <h3>CHOOSE YOUR SHADE</h3>
+  <div class="shades" id="shades"></div>
+  <p id="shadeName" style="font:12px Arial;color:#987b73"></p>
+ </div>
+ <button class="apply" id="apply" onclick="applyProduct()" disabled>Apply product</button>
+ <div class="nav">
+  <button class="secondary" onclick="move(-1)">Back</button>
+  <button class="secondary" onclick="move(1)">Next</button>
+ </div>
+</section>
+</div>
+<section class="panel" id="finish">
+ <h2>Finished look</h2>
+ <div id="finishedFace"></div>
+ <p id="finishedName"></p>
+ <button class="apply" onclick="newCustomer()">Next customer</button>
+ <button class="secondary" onclick="replay()">Start again</button>
+</section>
+</main>
+<footer>BLUSH BEAUTY STUDIO</footer>
+<script>
+const customers=[
+{name:"Sophie",info:"Warm brown eyes · Long brunette hair",skin:"#D9A17D",hair:"#493025",eyes:"#68452F",style:"long"},
+{name:"Mila",info:"Blue eyes · Blonde waves",skin:"#F2D1B7",hair:"#D4A45D",eyes:"#648B9C",style:"waves"},
+{name:"Amara",info:"Dark brown eyes · Natural curls",skin:"#89583F",hair:"#241C1A",eyes:"#30221E",style:"curly"},
+{name:"Jade",info:"Green eyes · Black bob",skin:"#C98F70",hair:"#30211F",eyes:"#64805B",style:"bob"},
+{name:"Isabella",info:"Hazel eyes · Auburn hair",skin:"#E8B99B",hair:"#87452D",eyes:"#88704A",style:"long"}
+];
+const steps=[
+{name:"Cleanser",type:"skin",items:["CeraVe Cleanser","Glow Recipe Cleanser","La Roche-Posay Cleanser"]},
+{name:"Toner",type:"skin",items:["Glow Recipe Toner","Hydrating Toner","Milky Toner"]},
+{name:"Serum",type:"skin",items:["Glowing Serum","Hydrating Serum","Vitamin C Serum"]},
+{name:"Moisturizer",type:"skin",items:["Rhode Barrier Cream","CeraVe Moisturizer","Plum Cream"]},
+{name:"Sunscreen",type:"skin",items:["Daily SPF","Glowy SPF","Hydrating SPF"]},
+{name:"Lip Care",type:"skin",items:["Laneige Lip Mask","Summer Fridays Balm","Rhode Lip Treatment"]},
+{name:"Primer",type:"makeup",items:["Glowy Primer","Hydrating Primer","Blurring Primer"]},
+{name:"Foundation",type:"makeup",items:["Glowy Skin Tint","Soft Matte Foundation","Natural Foundation"],shades:"skin"},
+{name:"Concealer",type:"makeup",items:["Brightening Concealer","Hydrating Concealer","Full Coverage Concealer"],shades:"concealer"},
+{name:"Bronzer",type:"makeup",items:["Cream Bronzer","Warm Bronzer","Soft Matte Bronzer"],shades:"bronzer"},
+{name:"Blush",type:"makeup",items:["Rare Beauty Blush","Dewy Cream Blush","Soft Powder Blush"],shades:"blush"},
+{name:"Highlighter",type:"makeup",items:["Glowy Highlighter","Liquid Highlight","Shimmer Powder"],shades:"highlight"},
+{name:"Eyebrows",type:"makeup",items:["Brow Gel","Brow Pencil","Brow Wax"],shades:"brow"},
+{name:"Eyeshadow",type:"makeup",items:["Everyday Palette","Pink Palette","Glam Palette"],shades:"eyes"},
+{name:"Eyeliner",type:"makeup",items:["Brown Liner","Black Liner","Soft Pencil"],shades:"liner"},
+{name:"Mascara",type:"makeup",items:["Lengthening Mascara","Volumizing Mascara","Brown Mascara"]},
+{name:"Lip Liner",type:"makeup",items:["Nude Lip Liner","Pink Lip Liner","Brown Lip Liner"],shades:"lips"},
+{name:"Lip Gloss",type:"makeup",items:["Summer Fridays Gloss","Tower 28 Gloss","Shiny Lip Oil"],shades:"gloss"},
+{name:"Setting Spray",type:"makeup",items:["Dewy Setting Spray","Natural Setting Spray","Matte Setting Spray"]}
+];
+const palettes={
+blush:[["#E98A9B","Petal pink"],["#CB657B","Berry"],["#DF9270","Peach"],["#A84E55","Rose"],["#D76C9A","Pink"],["#B66E52","Terracotta"]],
+bronzer:[["#B77B4E","Light"],["#96603C","Medium"],["#704329","Deep"],["#D19A6B","Golden"]],
+highlight:[["#F8D9A6","Champagne"],["#F7C6C6","Pink pearl"],["#E7B66E","Gold"],["#F5E8DB","Pearl"]],
+eyes:[["#D9B18B","Caramel"],["#C68BA0","Rose"],["#9271A6","Lavender"],["#8B765A","Brown"],["#D6B75E","Gold"],["#B6A9D2","Lilac"]],
+lips:[["#A85C56","Nude"],["#C86D7D","Rose"],["#9D4749","Berry"],["#B87962","Brown"],["#DA879B","Pink"]],
+gloss:[["#F4A4B5","Pink"],["#D88C79","Peach"],["#B56B79","Rose"],["#E5B3A0","Nude"]],
+liner:[["#30231E","Black"],["#68432F","Brown"],["#765C82","Plum"]],
+brow:[["#55392C","Dark brown"],["#926344","Medium brown"],["#B68C65","Light brown"]],
+skin:[["#F7D6BF","Fair"],["#EAB99B","Light"],["#D49A75","Medium"],["#B97955","Tan"],["#89583F","Deep"],["#603B2D","Rich"]],
+concealer:[["#F8DDC8","Fair"],["#EAC0A3","Light"],["#D9A27C","Medium"],["#B77D5D","Tan"],["#916047","Deep"]]
+};
+let person=0,step=0,selected=-1,selectedShade=null;
+let looks={};
+function freshLook(){return{skin:{},makeup:{},products:{}}}
+function getLook(){return looks[person]||(looks[person]=freshLook())}
+function init(){
+ document.getElementById("customers").innerHTML=customers.map((c,i)=>
+ `<button class="customer ${i===person?'active':''}" onclick="chooseCustomer(${i})">
+ <span class="portrait" style="background:linear-gradient(135deg,${c.hair} 40%,${c.skin} 40%)"></span>${c.name}</button>`).join("");
+ showCustomer();
+}
+function chooseCustomer(i){person=i;step=0;selected=-1;selectedShade=null;init();renderStep()}
+function showCustomer(){
+ const c=customers[person];
+ document.getElementById("customerName").textContent=c.name;
+ document.getElementById("customerInfo").textContent=c.info;
+ drawFace("face");
+}
+function drawFace(target){
+ const c=customers[person],l=getLook(),m=l.makeup;
+ let hairBack=`<path d="M75 170 Q55 42 155 43 Q255 42 245 170 L238 310 L75 310Z" fill="${c.hair}"/>`;
+ if(c.style==="bob")hairBack=`<path d="M75 170 Q55 42 155 43 Q255 42 245 170 L235 255 L85 255Z" fill="${c.hair}"/>`;
+ if(c.style==="curly")hairBack=`<path d="M76 170 Q40 80 100 54 Q145 20 190 55 Q270 65 245 175 L230 240 L88 240Z" fill="${c.hair}"/>`;
+ let foundation=m.foundation?.shade||c.skin;
+ let svg=`<svg viewBox="0 0 320 365" xmlns="http://www.w3.org/2000/svg">
+ ${hairBack}
+ <ellipse cx="160" cy="183" rx="83" ry="112" fill="${foundation}"/>
+ <path d="M78 178 Q45 150 76 195 L91 195 M242 178 Q275 150 244 195 L229 195" fill="${foundation}"/>
+ ${m.bronzer?`<path d="M89 202 Q115 220 131 204 Q110 242 90 230Z M231 202 Q205 220 189 204 Q210 242 230 230Z" fill="${m.bronzer.shade}" opacity=".4"/>`:""}
+ ${m.concealer?`<ellipse cx="124" cy="194" rx="22" ry="8" fill="${m.concealer.shade}" opacity=".5"/><ellipse cx="196" cy="194" rx="22" ry="8" fill="${m.concealer.shade}" opacity=".5"/>`:""}
+ ${m.blush?`<ellipse cx="112" cy="211" rx="24" ry="13" fill="${m.blush.shade}" opacity=".65"/><ellipse cx="208" cy="211" rx="24" ry="13" fill="${m.blush.shade}" opacity=".65"/>`:""}
+ ${m.highlighter?`<ellipse cx="111" cy="204" rx="13" ry="5" fill="${m.highlighter.shade}" opacity=".7"/><ellipse cx="209" cy="204" rx="13" ry="5" fill="${m.highlighter.shade}" opacity=".7"/>`:""}
+ <path d="M103 157 Q125 143 145 157 M175 157 Q195 143 217 157" stroke="${m.eyebrows?.shade||c.hair}" stroke-width="7" stroke-linecap="round" fill="none"/>
+ ${m.eyeshadow?`<ellipse cx="125" cy="177" rx="24" ry="11" fill="${m.eyeshadow.shade}" opacity=".7"/><ellipse cx="195" cy="177" rx="24" ry="11" fill="${m.eyeshadow.shade}" opacity=".7"/>`:""}
+ <ellipse cx="125" cy="178" rx="17" ry="7" fill="white"/><ellipse cx="195" cy="178" rx="17" ry="7" fill="white"/>
+ <circle cx="125" cy="178" r="6" fill="${c.eyes}"/><circle cx="195" cy="178" r="6" fill="${c.eyes}"/>
+ <circle cx="127" cy="176" r="2" fill="white"/><circle cx="197" cy="176" r="2" fill="white"/>
+ ${m.eyeliner?`<path d="M105 177 Q125 165 145 177 L151 172 M175 177 Q195 165 215 177 L221 172" fill="none" stroke="${m.eyeliner.shade}" stroke-width="3" stroke-linecap="round"/>`:""}
+ ${m.mascara?`<path d="M108 171 L103 164 M115 168 L113 161 M135 168 L138 161 M182 168 L180 161 M203 168 L207 161 M212 171 L217 164" stroke="#29201E" stroke-width="2.5" stroke-linecap="round"/>`:""}
+ <path d="M160 184 Q151 210 160 211" stroke="#B77C65" stroke-width="2" fill="none" opacity=".6"/>
+ <path d="M145 235 Q160 225 175 235 Q160 254 145 235Z" fill="${m["lip gloss"]?.shade||m["lip liner"]?.shade||"#B86F72"}"/>
+ ${c.style==="waves"?`<path d="M82 150 Q45 220 95 285 M238 150 Q275 220 225 285" fill="none" stroke="${c.hair}" stroke-width="18" stroke-linecap="round"/>`:""}
+ ${c.style==="bob"?`<path d="M75 135 Q65 220 100 265 M245 135 Q255 220 220 265" fill="none" stroke="${c.hair}" stroke-width="17"/>`:""}
+ <path d="M125 292 Q160 310 195 292 L208 365 L112 365Z" fill="#E8BFC5"/>
+ </svg>`;
+ document.getElementById(target).innerHTML=svg;
+}
+function renderStep(){
+ const s=steps[step];selected=-1;selectedShade=null;
+ document.getElementById("stepTitle").textContent=s.type==="skin"?"Skincare":"Makeup";
+ document.getElementById("stepDescription").textContent=`STEP ${String(step+1).padStart(2,"0")} · CHOOSE YOUR ${s.name.toUpperCase()}`;
+ document.getElementById("stepnum").textContent=`${step+1} OF ${steps.length}`;
+ document.getElementById("progress").style.width=((step+1)/steps.length*100)+"%";
+ document.getElementById("products").innerHTML=s.items.map((item,i)=>
+ `<button class="product" onclick="selectProduct(${i})"><span class="bottle"></span><strong>${item}</strong><small>Choose product</small></button>`).join("");
+ document.getElementById("shadeArea").style.display=s.shades?"block":"none";
+ document.getElementById("shades").innerHTML="";
+ document.getElementById("apply").disabled=true;
+ document.getElementById("message").textContent="Choose your favorite product.";
+}
+function selectProduct(i){
+ selected=i;selectedShade=null;
+ document.querySelectorAll(".product").forEach((p,n)=>p.classList.toggle("selected",n===i));
+ const s=steps[step];
+ document.getElementById("apply").disabled=false;
+ if(s.shades){
+ const colors=palettes[s.shades];
+ document.getElementById("shades").innerHTML=colors.map((x,n)=>
+ `<button class="shade" title="${x[1]}" style="background:${x[0]}" onclick="selectShade(${n})"></button>`).join("");
+ document.getElementById("shadeName").textContent="Choose a shade.";
+ }else{document.getElementById("shadeName").textContent=""}
+}
+function selectShade(i){
+ selectedShade=i;
+ document.querySelectorAll(".shade").forEach((p,n)=>p.classList.toggle("active",n===i));
+ document.getElementById("shadeName").textContent=palettes[steps[step].shades][i][1];
+}
+function applyProduct(){
+ if(selected<0)return;
+ const s=steps[step];
+ if(s.shades&&selectedShade===null){document.getElementById("message").textContent="Pick a shade first.";return}
+ const l=getLook(),entry={product:s.items[selected]};
+ if(s.shades){entry.shade=palettes[s.shades][selectedShade][0];entry.shadeName=palettes[s.shades][selectedShade][1]}
+ if(s.type==="skin")l.skin[s.name.toLowerCase()]=entry;
+ else l.makeup[s.name.toLowerCase()]=entry;
+ l.products[s.name]=entry;
+ drawFace("face");
+ document.getElementById("message").textContent="Product applied.";
+ if(step<steps.length-1)setTimeout(()=>{step++;renderStep()},400);
+ else setTimeout(finish,400);
+}
+function move(n){step=Math.max(0,Math.min(steps.length-1,step+n));renderStep()}
+function resetLook(){looks[person]=freshLook();step=0;drawFace("face");renderStep();document.getElementById("message").textContent="Fresh start."}
+function finish(){
+ document.getElementById("game").style.display="none";
+ document.getElementById("finish").style.display="block";
+ drawFace("finishedFace");
+ document.getElementById("finishedName").textContent=customers[person].name+"'s finished look";
+}
+function newCustomer(){
+ document.getElementById("finish").style.display="none";
+ document.getElementById("game").style.display="grid";
+ person=(person+1)%customers.length;step=0;init();renderStep();
+}
+function replay(){
+ document.getElementById("finish").style.display="none";
+ document.getElementById("game").style.display="grid";resetLook();
+}
+init();renderStep();
+</script>
+</body>
+</html>
